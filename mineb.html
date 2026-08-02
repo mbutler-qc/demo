@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Voxel Build System Test</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+            font-family: monospace;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        #instructions {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            pointer-events: none;
+        }
+
+        #crosshair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 100;
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            line-height: 20px;
+        }
+
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 15, 30, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease-out;
+        }
+
+            #loading-screen.hidden {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+        .loading-container {
+            text-align: center;
+            color: #e0e8f0;
+            font-family: monospace;
+        }
+
+            .loading-container h2 {
+                margin-bottom: 1.5rem;
+                font-size: 1.4rem;
+                letter-spacing: 2px;
+            }
+
+        .progress-bar {
+            width: 300px;
+            height: 8px;
+            background: #1a2a40;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0 auto 1rem;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4a90d9, #6ab0ff);
+            transition: width 0.3s ease-out;
+            box-shadow: 0 0 10px rgba(74, 144, 217, 0.5);
+        }
+
+        #load-status {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+    </style>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.1/examples/jsm/"
+            }
+        }
+    </script>
+</head>
+<body>
+    <!-- Loading Screen Overlay -->
+    <div id="loading-screen">
+        <div class="loading-container">
+            <h2>🔨 Loading Voxel Textures...</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" id="load-progress"></div>
+            </div>
+            <p id="load-status">Initializing materials...</p>			
+			<div>Textures used under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY</a> from <a href="https://juliovii.itch.io/materials-stone-floors">https://juliovii.itch.io/materials-stone-floors</a></div>
+        </div>
+    </div>
+
+    <div id="instructions">
+        Click to Start<br>
+        WASD: Move | Mouse: Look<br>
+        SPACE: Jump<br>
+        LMB: Place Block | RMB: Remove Block<br>
+        1-8: Select Material
+    </div>
+    <div id="crosshair">+</div>
+
+    <script type="module">
+        const loader = document.getElementById('loading-screen');
+        if (loader) {
+            loader.classList.remove('hidden');
+        }
+
+        import * as THREE from 'three';
+        import { BuildSystem } from './buildsystem.js';
+
+        // --- Setup Scene ---
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 2.5, 5); // Start safely in the air
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true;
+        document.body.appendChild(renderer.domElement);
+
+        // --- Scene & Atmosphere ---
+        const scene = new THREE.Scene();
+
+        // 🔷 Gradient Sky Background (procedural canvas texture)
+        function createSkyGradient() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+
+            // Vertical gradient: deep blue at top → light blue at horizon
+            const gradient = ctx.createLinearGradient(0, 0, 0, 512);
+            gradient.addColorStop(0, '#1a3a5c');   // Deep sky blue (top)
+            gradient.addColorStop(0.4, '#4a90d9');  // Medium blue
+            gradient.addColorStop(0.7, '#87CEEB');  // Light blue (horizon)
+            gradient.addColorStop(1, '#b0e0ff');    // Very light near horizon
+
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 512, 512);
+
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.mapping = THREE.EquirectangularReflectionMapping;
+            return texture;
+        }
+
+        const skyGeo = new THREE.SphereGeometry(400, 32, 32);
+        const skyMat = new THREE.MeshBasicMaterial({
+            map: createSkyGradient(),
+            side: THREE.BackSide
+        });
+        const sky = new THREE.Mesh(skyGeo, skyMat);
+        scene.add(sky);
+
+        // --- Lighting ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+        scene.add(ambientLight);
+
+        const dirLight = new THREE.DirectionalLight(0xfff4e0, 3.0);
+        dirLight.position.set(80, 120, 60); // Higher and further for dramatic shadows
+        dirLight.castShadow = true;
+        dirLight.shadow.mapSize.width = 2048;
+        dirLight.shadow.mapSize.height = 2048;
+        dirLight.shadow.camera.near = 0.5;
+        dirLight.shadow.camera.far = 300;
+        dirLight.shadow.camera.left = -100;
+        dirLight.shadow.camera.right = 100;
+        dirLight.shadow.camera.top = 100;
+        dirLight.shadow.camera.bottom = -100;
+        scene.add(dirLight);
+
+        // --- Volumetric Clouds (2 Layers) ---
+        function createCloudTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 256;
+            canvas.height = 256;
+            const ctx = canvas.getContext('2d');
+
+            // Generate soft cloud patches using radial gradients
+            for (let i = 0; i < 12; i++) {
+                const x = Math.random() * 256;
+                const y = Math.random() * 256;
+                const radius = 30 + Math.random() * 40;
+
+                const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+                gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+                gradient.addColorStop(0.6, 'rgba(255, 255, 255, 0.3)');
+                gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, 256, 256);
+            }
+
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            return texture;
+        }
+
+        const cloudGeo = new THREE.PlaneGeometry(300, 300);
+        const cloudMat1 = new THREE.MeshBasicMaterial({
+            map: createCloudTexture(),
+            transparent: true,
+            opacity: 0.6,
+            depthWrite: false,
+            side: THREE.DoubleSide
+        });
+        const clouds1 = new THREE.Mesh(cloudGeo, cloudMat1);
+        clouds1.rotation.x = -Math.PI / 2;
+        clouds1.position.y = 85;
+        scene.add(clouds1);
+
+        const cloudMat2 = new THREE.MeshBasicMaterial({
+            map: createCloudTexture(),
+            transparent: true,
+            opacity: 0.4,
+            depthWrite: false,
+            side: THREE.DoubleSide
+        });
+        const clouds2 = new THREE.Mesh(cloudGeo.clone(), cloudMat2);
+        clouds2.rotation.x = -Math.PI / 2;
+        clouds2.position.y = 95;
+        scene.add(clouds2);
+
+        // --- Glowing Sun with Halo ---
+        const sunGroup = new THREE.Group();
+
+        const sunCoreGeo = new THREE.SphereGeometry(6, 32, 32);
+        const sunCoreMat = new THREE.MeshBasicMaterial({ color: 0xffee88 });
+        const sunCore = new THREE.Mesh(sunCoreGeo, sunCoreMat);
+        sunGroup.add(sunCore);
+
+        // Outer glow halo
+        const sunHaloGeo = new THREE.SphereGeometry(10, 32, 32);
+        const sunHaloMat = new THREE.MeshBasicMaterial({
+            color: 0xffaa44,
+            transparent: true,
+            opacity: 0.4,
+            side: THREE.BackSide
+        });
+        const sunHalo = new THREE.Mesh(sunHaloGeo, sunHaloMat);
+        sunGroup.add(sunHalo);
+
+        // Light rays (cross shape)
+        const rayGeo = new THREE.PlaneGeometry(40, 2);
+        const rayMat = new THREE.MeshBasicMaterial({
+            color: 0xffddaa,
+            transparent: true,
+            opacity: 0.15,
+            side: THREE.DoubleSide
+        });
+        for (let i = 0; i < 4; i++) {
+            const ray = new THREE.Mesh(rayGeo, rayMat);
+            ray.rotation.z = (Math.PI / 2) * i;
+            sunGroup.add(ray);
+        }
+
+        sunGroup.position.copy(dirLight.position);
+        scene.add(sunGroup);
+
+        // --- Fog that blends with sky ---
+        scene.fog = new THREE.Fog(0x87CEEB, 50, 180); // Extended range to match clouds
+
+        console.log("🌤️ Enhanced sky system initialized");
+
+        // --- Static Floor (InstancedMesh) ---
+        const FLOOR_SIZE = 30;
+        const floorGeo = new THREE.BoxGeometry(1, 1, 1);
+        const floorMat = new THREE.MeshStandardMaterial({ color: 0x2e7d32 });
+
+        const floorMesh = new THREE.InstancedMesh(floorGeo, floorMat, FLOOR_SIZE * FLOOR_SIZE);
+        let idx = 0;
+        for (let x = -Math.floor(FLOOR_SIZE / 2); x < Math.floor(FLOOR_SIZE / 2); x++) {
+            for (let z = -Math.floor(FLOOR_SIZE / 2); z < Math.floor(FLOOR_SIZE / 2); z++) {
+                const m = new THREE.Matrix4().setPosition(x, -0.51, z);
+                floorMesh.setMatrixAt(idx++, m);
+            }
+        }
+        floorMesh.receiveShadow = true;
+        scene.add(floorMesh);
+
+        // --- Initialize BuildSystem ---
+        const buildSystem = new BuildSystem(scene, camera, renderer);
+
+        // Optional: Sync a flat map of stone if you want a stone floor instead of grass
+        const mapData = Array(20).fill().map(() => Array(20).fill(1));
+        buildSystem.syncFromMap(mapData, 20, 20, 1);
+
+        // --- First Person Controls ---
+        let isLocked = false;
+        const euler = new THREE.Euler(0, 0, 0, 'YXZ');
+        const velocity = new THREE.Vector3();
+        const direction = new THREE.Vector3();
+
+        document.addEventListener('click', () => {
+            if (!isLocked) renderer.domElement.requestPointerLock();
+        });
+
+        document.addEventListener('pointerlockchange', () => {
+            isLocked = document.pointerLockElement === renderer.domElement;
+            document.getElementById('crosshair').style.display = isLocked ? 'block' : 'none';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isLocked) return;
+            const sensitivity = 0.002;
+            euler.setFromQuaternion(camera.quaternion);
+            euler.y -= e.movementX * sensitivity;
+            euler.x -= e.movementY * sensitivity;
+            euler.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, euler.x));
+            camera.quaternion.setFromEuler(euler);
+
+            buildSystem.updateGhost();
+        });
+
+        const keys = { w: false, a: false, s: false, d: false };
+
+        document.addEventListener('keydown', (e) => {
+            switch (e.key.toLowerCase()) {
+                case 'w': keys.w = true; break;
+                case 'a': keys.a = true; break;
+                case 's': keys.s = true; break;
+                case 'd': keys.d = true; break;
+                case ' ':
+                    if (isOnGround) {
+                        velocity.y = 8.0;
+                        isOnGround = false;
+                    }
+                    break;
+            }
+
+            // 🔒 Ghost Toggle
+            if (e.key.toLowerCase() === buildSystem.ghostToggleKey) {
+                e.preventDefault();
+                const isVisible = buildSystem.toggleGhost();
+
+                // Optional: Update instructions UI to show state
+                updateInstructions(isVisible);
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            switch (e.key.toLowerCase()) {
+                case 'w': keys.w = false; break;
+                case 'a': keys.a = false; break;
+                case 's': keys.s = false; break;
+                case 'd': keys.d = false; break;
+            }
+        });
+
+        // --- Game Loop ---
+        const timer = new (THREE.Timer || THREE.Clock)();
+
+        const GRAVITY = -20.0;
+        const PLAYER_HEIGHT = 1.7;
+        let isOnGround = false;
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (isLocked) {
+                timer.update();
+                const delta = timer.getDelta();
+
+                // --- Horizontal Movement ---
+                velocity.x -= velocity.x * 10.0 * delta;
+                velocity.z -= velocity.z * 10.0 * delta;
+
+                direction.z = Number(keys.w) - Number(keys.s);
+                direction.x = Number(keys.d) - Number(keys.a);
+                direction.normalize();
+
+                const speed = 20.0;
+                if (keys.w || keys.s) velocity.z -= direction.z * speed * delta;
+                if (keys.a || keys.d) velocity.x -= direction.x * speed * delta;
+
+                camera.translateX(-velocity.x * delta);
+                camera.translateZ(velocity.z * delta);
+
+                // --- Vertical Movement (Gravity & Collision) ---
+
+                velocity.y += GRAVITY * delta;
+                camera.position.y += velocity.y * delta;
+
+                // --- Collision Detection ---
+
+                const feetY = camera.position.y - PLAYER_HEIGHT;
+
+                // 1. Check Floor (Static InstancedMesh at y=-0.5, top surface at y=0)
+                if (feetY < 0 && velocity.y <= 0) {
+                    camera.position.y = PLAYER_HEIGHT;
+                    velocity.y = 0;
+                    isOnGround = true;
+                }
+                // 2. Check Voxels (Active Blocks)
+                else if (velocity.y < 0) {
+                    const checkY = Math.floor(feetY + 0.01);
+
+                    const key = `${Math.round(camera.position.x)},${checkY},${Math.round(camera.position.z)}`;
+
+                    if (buildSystem.activeVoxels.has(key)) {
+                        camera.position.y = (checkY + 0.5) + PLAYER_HEIGHT;
+                        velocity.y = 0;
+                        isOnGround = true;
+                    } else {
+                        isOnGround = false;
+                    }
+                }
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        function updateInstructions(showGhost) {
+            const instructions = document.getElementById('instructions');
+            if (!instructions) return;
+
+            // Rebuild instructions with ghost state
+            const ghostStatus = showGhost ? '✅' : '❌';
+            instructions.innerHTML = `
+                Click to Start<br>
+                WASD: Move | Mouse: Look<br>
+                SPACE: Jump<br>
+                LMB: Place Block | RMB: Remove Block<br>
+                1-8: Select Material<br>
+                <strong>G: Ghost ${ghostStatus}</strong>
+            `;
+        }
+
+        updateInstructions(buildSystem.showGhost);
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
