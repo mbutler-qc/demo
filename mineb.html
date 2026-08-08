@@ -111,8 +111,8 @@
             <div class="progress-bar">
                 <div class="progress-fill" id="load-progress"></div>
             </div>
-            <p id="load-status">Initializing materials...</p>			
-			<div>Textures used under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY</a> from <a href="https://juliovii.itch.io/materials-stone-floors">https://juliovii.itch.io/materials-stone-floors</a></div>
+            <p id="load-status">Initializing materials...</p>
+            <div>Textures used under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY</a> from <a href="https://juliovii.itch.io/materials-stone-floors">https://juliovii.itch.io/materials-stone-floors</a></div>
         </div>
     </div>
 
@@ -133,6 +133,7 @@
 
         import * as THREE from 'three';
         import { BuildSystem } from './buildsystem.js';
+        import { WorldManager } from './world.js';
 
         // --- Setup Scene ---
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -287,28 +288,31 @@
 
         console.log("🌤️ Enhanced sky system initialized");
 
-        // --- Static Floor (InstancedMesh) ---
-        const FLOOR_SIZE = 30;
-        const floorGeo = new THREE.BoxGeometry(1, 1, 1);
-        const floorMat = new THREE.MeshStandardMaterial({ color: 0x2e7d32 });
+        // --- Initialize WorldManager (chunk-based procedural terrain) ---
+        const worldManager = new WorldManager(scene, camera);
 
-        const floorMesh = new THREE.InstancedMesh(floorGeo, floorMat, FLOOR_SIZE * FLOOR_SIZE);
-        let idx = 0;
-        for (let x = -Math.floor(FLOOR_SIZE / 2); x < Math.floor(FLOOR_SIZE / 2); x++) {
-            for (let z = -Math.floor(FLOOR_SIZE / 2); z < Math.floor(FLOOR_SIZE / 2); z++) {
-                const m = new THREE.Matrix4().setPosition(x, -0.51, z);
-                floorMesh.setMatrixAt(idx++, m);
+        // Generate initial terrain chunks around spawn point
+        const spawnCX = Math.floor(camera.position.x / worldManager.CHUNK_SIZE);
+        const spawnCY = Math.floor(camera.position.y / worldManager.CHUNK_SIZE);
+        const spawnCZ = Math.floor(camera.position.z / worldManager.CHUNK_SIZE);
+
+        for (let cx = spawnCX - 2; cx <= spawnCX + 2; cx++) {
+            for (let cz = spawnCZ - 2; cz <= spawnCZ + 2; cz++) {
+                for (let cy = spawnCY - 1; cy <= spawnCY + 3; cy++) {
+                    worldManager._getOrLoadChunk(cx, cy, cz);
+                }
             }
         }
-        floorMesh.receiveShadow = true;
-        scene.add(floorMesh);
 
-        // --- Initialize BuildSystem ---
+        console.log(`🌍 Initial terrain loaded: ${worldManager.loadedChunkCount} chunks`);
+
+        // --- Initialize BuildSystem (manual block placement) ---
         const buildSystem = new BuildSystem(scene, camera, renderer);
 
-        // Optional: Sync a flat map of stone if you want a stone floor instead of grass
-        const mapData = Array(20).fill().map(() => Array(20).fill(1));
-        buildSystem.syncFromMap(mapData, 20, 20, 1);
+        // Wire WorldManager into BuildSystem so terrain meshes are raycast targets
+        buildSystem.setWorldManager(worldManager);
+
+
 
         // --- First Person Controls ---
         let isLocked = false;
@@ -381,10 +385,13 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            if (isLocked) {
-                timer.update();
-                const delta = timer.getDelta();
+            // --- Timers & World Manager run every frame (even before pointer lock) ---
+            timer.update();
+            // Cap delta to prevent tunneling through blocks on large frame gaps
+            const delta = Math.min(timer.getDelta(), 0.1);
+            worldManager.update();
 
+            if (isLocked) {
                 // --- Horizontal Movement ---
                 velocity.x -= velocity.x * 10.0 * delta;
                 velocity.z -= velocity.z * 10.0 * delta;
@@ -400,6 +407,9 @@
                 camera.translateX(-velocity.x * delta);
                 camera.translateZ(velocity.z * delta);
 
+                // Update ghost block position every frame
+                buildSystem.updateGhost();
+
                 // --- Vertical Movement (Gravity & Collision) ---
 
                 velocity.y += GRAVITY * delta;
@@ -409,20 +419,18 @@
 
                 const feetY = camera.position.y - PLAYER_HEIGHT;
 
-                // 1. Check Floor (Static InstancedMesh at y=-0.5, top surface at y=0)
-                if (feetY < 0 && velocity.y <= 0) {
-                    camera.position.y = PLAYER_HEIGHT;
-                    velocity.y = 0;
-                    isOnGround = true;
-                }
-                // 2. Check Voxels (Active Blocks)
-                else if (velocity.y < 0) {
+                // 1. Check Voxels from WorldManager (terrain blocks)
+                if (velocity.y < 0) {
                     const checkY = Math.floor(feetY + 0.01);
 
-                    const key = `${Math.round(camera.position.x)},${checkY},${Math.round(camera.position.z)}`;
+                    const voxelType = worldManager.getVoxelAt(
+                        Math.round(camera.position.x),
+                        checkY,
+                        Math.round(camera.position.z)
+                    );
 
-                    if (buildSystem.activeVoxels.has(key)) {
-                        camera.position.y = (checkY + 0.5) + PLAYER_HEIGHT;
+                    if (voxelType > 0) {
+                        camera.position.y = (checkY + 1) + PLAYER_HEIGHT;
                         velocity.y = 0;
                         isOnGround = true;
                     } else {

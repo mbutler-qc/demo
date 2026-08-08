@@ -6,6 +6,7 @@ export class BuildSystem {
         this.scene = scene;
         this.camera = camera;
         this.renderer = renderer;
+        this.worldManager = null;
 
         // --- Configuration ---
         this.BLOCK_SIZE = 1.0;
@@ -23,17 +24,14 @@ export class BuildSystem {
             { id: 7, name: 'Stone 08', color: '#795548' }
         ];
 
+        // Voxel state now owned by WorldManager (no duplicate storage)
         this.activeVoxels = new Map();
-        this.textureLoadState = { loaded: 0, total: this.NUM_TYPES * 2 };
-        this.allTexturesLoaded = false;
         this.raycaster = new THREE.Raycaster();
         this.selectedBlockType = 0;
 
         // --- GHOST TOGGLE ---
         this.showGhost = true;
         this.ghostToggleKey = 'g'; // Press 'G' to toggle
-
-        this.texLoader = new THREE.TextureLoader();
 
         // --- Material & Mesh Setup ---
         this.materials = [];
@@ -59,11 +57,13 @@ export class BuildSystem {
         }
 
         for (let i = 0; i < this.NUM_TYPES; i++) {
-            const basePath = `./textures/Materials_StoneFloor/StoneFloor_0${i + 1}/`;
-            const baseColor = new THREE.Color(this.BLOCK_TYPES[i].color).multiplyScalar(2);
+            // Use WorldManager's blockColors palette colors as base — no separate color calc.
+            const colorHex = this.worldManager
+                ? this.worldManager.blockColors[i]?.color ?? 0xffffff
+                : new THREE.Color(this.BLOCK_TYPES[i].color).multiplyScalar(2).getHex();
 
             const initialMat = new THREE.MeshStandardMaterial({
-                color: baseColor,
+                color: colorHex,
                 roughness: 0.45,
                 metalness: 0.15,
                 map: null
@@ -71,29 +71,7 @@ export class BuildSystem {
 
             this.materials.push(initialMat);
 
-            // 🚀 PERFORMANCE FIX: Apply textures directly to the existing material.
-            // Cloning forces shader recompilation + GPU buffer rebuilds, which is why
-            // your previous code had to manually re-upload all instance matrices.
-            Promise.all([
-                this.loadTextureSafe(`${basePath}StoneFloor_0${i + 1}_basecolor.jpg`, true),
-                this.loadTextureSafe(`${basePath}StoneFloor_0${i + 1}_normal.jpg`, false)
-            ]).then(([baseTex, normTex]) => {
-                initialMat.map = baseTex;
-                initialMat.normalMap = normTex;
-                initialMat.needsUpdate = true;
 
-                // Update loading progress
-                this.textureLoadState.loaded += 2;
-                this.updateLoadingUI();
-
-                console.log(`✅ Texture loaded & applied to Block Type ${i + 1}`);
-            }).catch(err => {
-                console.warn(`⚠️ Failed to load textures for StoneFloor_0${i + 1}, keeping fallback.`);
-
-                // Even on failure, we still count them as "loaded" to avoid stalling the loading screen
-                this.textureLoadState.loaded += 2;
-                this.updateLoadingUI();
-            });
 
             const geo = new THREE.BoxGeometry(this.BLOCK_SIZE, this.BLOCK_SIZE, this.BLOCK_SIZE, 1, 1, 1);
             geo.side = THREE.DoubleSide;
@@ -138,76 +116,8 @@ export class BuildSystem {
         console.log("🔨 BuildSystem Initialized");
     }
 
-    updateLoadingUI() {
-        if (typeof document === 'undefined') return; // Not in browser
 
-        const progress = Math.min(100, Math.round((this.textureLoadState.loaded / this.textureLoadState.total) * 100));
-        const fill = document.getElementById('load-progress');
-        const status = document.getElementById('load-status');
 
-        if (fill && status) {
-            fill.style.width = `${progress}%`;
-
-            // Update status text based on progress
-            if (progress < 50) {
-                status.textContent = `Loading materials... ${this.textureLoadState.loaded}/${this.textureLoadState.total}`;
-            } else if (progress < 100) {
-                status.textContent = 'Applying textures...';
-            } else {
-                status.textContent = 'Finalizing scene...';
-                this.allTexturesLoaded = true;
-
-                // Hide loading screen after brief delay
-                setTimeout(() => {
-                    const loader = document.getElementById('loading-screen');
-                    if (loader) {
-                        loader.classList.add('hidden');
-                        setTimeout(() => loader.remove(), 600);
-                    }
-                }, 300);
-            }
-        }
-    }
-
-    loadTextureSafe(path, isAlbedo) {
-        return new Promise((resolve, reject) => {
-            const loader = new THREE.TextureLoader();
-            loader.load(
-                path,
-                (texture) => {
-                    texture.wrapS = THREE.RepeatWrapping;
-                    texture.wrapT = THREE.RepeatWrapping;
-                    texture.repeat.set(1, 1);
-
-                    // 🔒 COMPATIBILITY FIX: Modern Three.js uses colorSpace, legacy uses encoding
-                    if (isAlbedo) {
-                        texture.colorSpace = THREE.SRGBColorSpace || THREE.sRGBEncoding;
-                    } else {
-                        texture.encoding = THREE.LinearEncoding;
-                        texture.flipY = true;
-                    }
-
-                    resolve(texture);
-                },
-                undefined,
-                reject
-            );
-        });
-    }
-
-    syncFromMap(mapData, MAP_W, MAP_H, typeId) {
-        const W = mapData[0].length;
-        const H = mapData.length;
-        for (let y = 0; y < H; y++) {
-            for (let x = 0; x < W; x++) {
-                if (mapData[y][x] === 1) {
-                    const vx = Math.floor(x - MAP_W / 2 + 0.5);
-                    const vz = Math.floor(y - MAP_H / 2 + 0.5);
-                    this.placeVoxel(vx, 0, vz, typeId);
-                }
-            }
-        }
-    }
 
     toggleGhost() {
         this.showGhost = !this.showGhost;
@@ -222,16 +132,13 @@ export class BuildSystem {
     }
 
     updateGhost() {
-        if (!this.staticWallsMesh) return;
-
-        this.raycaster.setFromCamera(new THREE.Vector2(0, 0), this.camera);
-        const intersects = this.raycaster.intersectObjects(this.raycastTargets, false);
-
-        // 🔒 Hide ghost immediately if disabled (no raycast needed)
         if (!this.showGhost) {
             this.ghostGroup.visible = false;
             return;
         }
+
+        this.raycaster.setFromCamera(new THREE.Vector2(0, 0), this.camera);
+        const intersects = this.raycaster.intersectObjects(this.raycastTargets, false);
 
         if (intersects.length > 0) {
             const hit = intersects[0];
@@ -304,7 +211,6 @@ export class BuildSystem {
     }
 
     tryPlace() {
-        if (!this.staticWallsMesh) return;
 
         this.raycaster.setFromCamera(new THREE.Vector2(0, 0), this.camera);
         const intersects = this.raycaster.intersectObjects(this.raycastTargets, false);
@@ -325,8 +231,10 @@ export class BuildSystem {
             const key = `${gx},${gy},${gz}`;
             if (this.activeVoxels.has(key)) return;
 
-            // 🔒 Ground plane at y≤0 is always valid support, or check adjacent/underlying voxels
-            let isSupported = gy <= 0 || this.activeVoxels.has(`${gx},${gy - 1},${gz}`);
+            // 🔒 Terrain-aware support: blocks snap to procedural elevation
+            const terrainHeight = this.worldManager._getTerrainElevation(gx, gz);
+            const surfaceY = Math.floor(terrainHeight);
+            let isSupported = gy <= surfaceY || this.activeVoxels.has(`${gx},${gy - 1},${gz}`);
 
             if (!isSupported) {
                 const adjacentKeys = [
@@ -334,7 +242,10 @@ export class BuildSystem {
                     `${gx},${gy + 1},${gz}`, `${gx},${gy - 1},${gz}`,
                     `${gx},${gy},${gz + 1}`, `${gx},${gy},${gz - 1}`
                 ];
-                isSupported = adjacentKeys.some(k => this.activeVoxels.has(k));
+                isSupported = adjacentKeys.some(k => {
+                    const [ax, ay, az] = k.split(',').map(Number);
+                    return this.worldManager.getVoxelAt(ax, ay, az) > 0;
+                });
             }
 
             if (isSupported) this.placeVoxel(gx, gy, gz, this.selectedBlockType);
@@ -342,7 +253,7 @@ export class BuildSystem {
     }
 
     tryRemove() {
-        if (!this.staticWallsMesh) return;
+        if (!this.worldManager) return;
 
         this.raycaster.setFromCamera(new THREE.Vector2(0, 0), this.camera);
         const intersects = this.raycaster.intersectObjects(this.raycastTargets, false); // 🔒 Cached
@@ -351,6 +262,7 @@ export class BuildSystem {
             const hit = intersects[0];
 
             if (hit.object.isInstancedMesh && this.meshes.includes(hit.object)) {
+                // BuildSystem own instanced blocks
                 const mat = new THREE.Matrix4();
                 hit.object.getMatrixAt(hit.instanceId, mat);
                 const pos = new THREE.Vector3().setFromMatrixPosition(mat);
@@ -359,59 +271,87 @@ export class BuildSystem {
                 const gz = Math.round(pos.z / this.BLOCK_SIZE);
                 this.removeVoxel(gx, gy, gz);
             } else if (hit.object === this.staticWallsMesh) {
+                // Static floor
                 const pos = hit.point.clone().add(hit.face.normal.clone().multiplyScalar(0.5));
                 const gx = Math.round(pos.x / this.BLOCK_SIZE);
                 const gy = Math.round(pos.y / this.BLOCK_SIZE);
                 const gz = Math.round(pos.z / this.BLOCK_SIZE);
                 const key = `${gx},${gy},${gz}`;
                 if (this.activeVoxels.has(key)) this.removeVoxel(gx, gy, gz);
+            } else if (this.worldManager) {
+                // World chunk mesh — compute world-space voxel coords from hit point
+                const pos = hit.point.clone().add(hit.face.normal.clone().multiplyScalar(-0.5));
+                const gx = Math.round(pos.x);
+                const gy = Math.round(pos.y);
+                const gz = Math.round(pos.z);
+                if (this.worldManager.getVoxelAt(gx, gy, gz) > 0) {
+                    this.worldManager.removeBlock(gx, gy, gz);
+                }
             }
         }
+    }
+
+    setWorldManager(wm) {
+        // Register all currently-loaded chunk meshes as raycast targets
+        if (!wm) return;
+        this.worldManager = wm;
+
+        // Sync textures from WorldManager into BuildSystem materials.
+        // This must happen after WM finishes loading — not at construction time.
+        if (wm.texturesReadyPromise) {
+            wm.texturesReadyPromise.then(() => {
+                for (let i = 0; i < this.materials.length; i++) {
+                    const texData = wm.blockTextures.get(i + 1); // type indices 1-8
+                    if (texData) {
+                        this.materials[i].map = texData.base;
+                        this.materials[i].normalMap = texData.normal;
+                        this.materials[i].needsUpdate = true;
+                        console.log(`✅ BuildSystem synced texture for type ${i + 1} from WorldManager`);
+                    }
+                }
+
+                // Hide loading screen now that textures are available
+                setTimeout(() => {
+                    const loader = document.getElementById('loading-screen');
+                    if (loader) {
+                        loader.classList.add('hidden');
+                        setTimeout(() => loader.remove(), 600);
+                    }
+                }, 300);
+            }).catch(() => {}); // WM textures may fail silently
+        }
+
+        // Seed initial loaded chunks into raycastTargets
+        const existingMeshes = wm.getAllMeshes();
+        for (const mesh of existingMeshes) {
+            if (!this.raycastTargets.includes(mesh)) {
+                this.raycastTargets.push(mesh);
+            }
+        }
+
+        // Wire callback so dynamically-created/rebuilt chunk meshes are auto-registered
+        wm._onMeshCreated = (meshes) => {
+            for (const mesh of Array.isArray(meshes) ? meshes : [meshes]) {
+                if (!this.raycastTargets.includes(mesh)) {
+                    this.raycastTargets.push(mesh);
+                }
+            }
+        };
     }
 
     placeVoxel(x, y, z, typeId) {
-        if (typeId < 0 || typeId >= this.NUM_TYPES) return;
-        const key = `${x},${y},${z}`;
-        if (this.activeVoxels.has(key)) return;
-
-        const mesh = this.meshes[typeId];
-        let idx = -1;
-
-        // 🔒 Efficient free-slot scan from current cursor position
-        for (let i = this.nextFreeSlot[typeId]; i < this.MAX_BLOCKS_PER_TYPE; i++) {
-            const mat = new THREE.Matrix4();
-            mesh.getMatrixAt(i, mat);
-            if (mat.elements[12] === 0 && mat.elements[13] === 0 && mat.elements[14] === 0) {
-                idx = i;
-                this.nextFreeSlot[typeId] = Math.max(this.nextFreeSlot[typeId], i + 1);
-                break;
-            }
+        // Delegate to WorldManager — it owns voxel data and chunk mesh rebuilding
+        if (this.worldManager) {
+            this.worldManager.placeBlock(x, y, z, typeId);
+            this.activeVoxels.set(`${x},${y},${z}`, typeId);
         }
-
-        if (idx === -1) return;
-
-        this.activeVoxels.set(key, { x, y, z, type: typeId, id: idx });
-        const matrix = new THREE.Matrix4();
-        matrix.setPosition(x * this.BLOCK_SIZE, y * this.BLOCK_SIZE, z * this.BLOCK_SIZE);
-        mesh.setMatrixAt(idx, matrix);
-        mesh.instanceMatrix.needsUpdate = true;
-
-        // 🔒 Bounding box preserved exactly as before for raycasting/frustum stability
-        mesh.computeBoundingBox();
-        mesh.computeBoundingSphere();
     }
 
     removeVoxel(x, y, z) {
-        const key = `${x},${y},${z}`;
-        if (!this.activeVoxels.has(key)) return;
-
-        const blockData = this.activeVoxels.get(key);
-        const mesh = this.meshes[blockData.type];
-        const idx = blockData.id;
-
-        this.activeVoxels.delete(key);
-        const mat = new THREE.Matrix4().makeScale(0, 0, 0);
-        mesh.setMatrixAt(idx, mat);
-        mesh.instanceMatrix.needsUpdate = true;
+        // Delegate to WorldManager
+        if (this.worldManager) {
+            this.worldManager.removeBlock(x, y, z);
+            this.activeVoxels.delete(`${x},${y},${z}`);
+        }
     }
 }
