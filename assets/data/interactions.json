@@ -1,0 +1,110 @@
+{
+  "descriptions": {},
+  "dialogs": {},
+  "signs": {},
+  "templates": {
+    "signs": [
+      "=== THE WHISPERING WOODS ===\nProceed with caution.\n- The Elder Council",
+      "Danger! Turn back.\n- Ranger Station",
+      "Fresh water to the north.",
+      "Beware the wolves after dark.",
+      "The old shrine lies beyond the ridge.",
+      "Village ahead — welcome, traveler.",
+      "Bridge ahead. Cross carefully.",
+      "Rich soil here. The forest grows thick.",
+      "Path narrows ahead. Stay alert.",
+      "Quiet waters run deep.",
+      "Safe rest stop for weary travelers.",
+      "Old boundary stones mark the village edge."
+    ],
+    "npcs": {
+      "traveler": {
+        "speaker": "Traveling Merchant",
+        "dialogue": [
+          "Ah, a traveler! These are dangerous woods.",
+          "I would offer you wares, but... I seem to have lost my cart.",
+          "If you find it, I will reward you well."
+        ]
+      },
+      "spirit": {
+        "speaker": "Lost Spirit",
+        "dialogue": [
+          "You can see me? Most cannot...",
+          "I have wandered these woods for ages.",
+          "Seek the shrine to the east. It holds the answers you need."
+        ]
+      },
+      "wanderer": {
+        "speaker": "Forest Wanderer",
+        "dialogue": [
+          "You're not from around here, are you?",
+          "The path ahead is treacherous. Stick to the clearings.",
+          "If you hear whispers in the wind, ignore them."
+        ]
+      },
+      "fisherman": {
+        "speaker": "Old Fisherman",
+        "dialogue": [
+          "The water here is deep and cold.",
+          "I once saw something shimmer beneath the surface...",
+          "Best not to linger too long at the shore."
+        ]
+      },
+      "villager": {
+        "speaker": "Village Elder",
+        "dialogue": [
+          "Welcome to our village. We don't get many visitors.",
+          "The forest has been growing thicker lately.",
+          "If you need rest, the buildings here are safe."
+        ]
+      }
+    },
+    "descriptions": {
+      "tree": [
+        "An ancient oak. Its bark is covered in strange symbols.",
+        "A gnarled old oak. Its branches creak softly in the wind.",
+        "A tall pine. Needles sharp and dark.",
+        "A twisted elm, its roots splitting the earth.",
+        "An old birch, bark peeling in pale strips."
+      ],
+      "rock": [
+        "A cluster of mossy boulders. Water trickles behind them.",
+        "Weathered stones, worn smooth by centuries of rain.",
+        "Jagged rocks jut from the dark earth.",
+        "Flat stones stacked by some forgotten hand.",
+        "A lone boulder, draped in lichen."
+      ],
+      "wall": [
+        "Stone walls block your path. Old but sturdy.",
+        "Ancient masonry, cold to the touch.",
+        "Rough-hewn stone, mortar crumbling between the cracks.",
+        "A thick wall. Something scrapes from the other side.",
+        "Walls of stacked slate. Still standing after all this time."
+      ],
+      "water": [
+        "Cold water ripples gently in the dim light.",
+        "The water is deep and still. No bottom in sight.",
+        "Mud and reeds line the muddy shore.",
+        "Dark water reflects nothing. It swallows all light.",
+        "A thin current tugs at the bank."
+      ]
+    }
+  },
+  "placement": {
+    "signs": {
+      "count": 12,
+      "requirePassableNeighbor": true
+    },
+    "npcs": {
+      "traveler": { "count": 3, "requirePassableNeighbor": true },
+      "spirit": { "count": 2, "requirePassableNeighbor": true },
+      "wanderer": { "count": 2, "requirePassableNeighbor": true },
+      "fisherman": { "count": 2, "requirePassableNeighbor": true },
+      "villager": { "count": 3, "requirePassableNeighbor": true }
+    },
+    "descriptions": {
+      "autoAssign": true,
+      "requirePassableNeighbor": true
+    }
+  }
+}

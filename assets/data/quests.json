@@ -1,0 +1,205 @@
+{
+  "quests": {
+    "awakening": {
+      "id": "awakening",
+      "name": "Awakening",
+      "description": "You wake in a dark forest with no memory. Find your way to the road.",
+      "autoStart": true,
+      "giver": null,
+      "prose": "Cold stone under your back. No light. Through the door, trees stand black against a sky with no stars. You don't remember how you got here. Your hands find a [t]orch, a torn [m]ap, and a journal—your name in the cover, though you don't remember writing it. You wonder what sort of [q]uestions this place might pose.",
+      "requirements": {
+        "level": 1,
+        "items": [],
+        "quests": []
+      },
+      "stages": [
+        {
+          "id": "stage_1",
+          "name": "Find the Path",
+          "description": "Cold stone under your back. No light. Through the door, trees stand black against a sky with no stars. You don't remember how you got here.",
+          "objectives": [
+            {
+              "id": "find_path",
+              "type": "explore",
+              "target": {
+                "region": "north_clearing",
+                "bounds": { "x1": 240, "y1": 120, "x2": 360, "y2": 180 }
+              },
+              "text": "Head north through the trees"
+            }
+          ],
+          "prose": {
+            "start": "Cold stone under your back. No light. Through the door, trees stand black against a sky with no stars.",
+            "complete": "You step outside. A dirt track cuts through the dark—worn smooth by boots and wheels. Someone has been here."
+          }
+        },
+        {
+          "id": "stage_2",
+          "name": "Reach the Road",
+          "description": "Follow the track to the main road. There may be someone there.",
+          "objectives": [
+            {
+              "id": "reach_road",
+              "type": "explore",
+              "target": {
+                "region": "main_road",
+                "bounds": { "x1": 260, "y1": 170, "x2": 340, "y2": 210 }
+              },
+              "text": "Follow the track to the road"
+            }
+          ],
+          "prose": {
+            "start": "The track leads onward. In the dark, you hear something—wind, or maybe a voice.",
+            "complete": "A figure stands by the road, barely visible. He hasn't moved in a long time."
+          }
+        }
+      ],
+      "rewards": {
+        "xp": 50,
+        "gold": 0,
+        "items": []
+      }
+    },
+    "the_lost_cart": {
+      "id": "the_lost_cart",
+      "name": "The Lost Cart",
+      "description": "A traveling merchant has lost his cart in the woods. Help him find it.",
+      "giver": {
+        "questGiver": true,
+        "speaker": "Traveling Merchant",
+        "prose": "A gaunt figure hunched against the cold. His clothes hang loose, worn thin. He watches the treeline like something watches back.",
+        "dialogue": {
+          "intro": [
+            "You... you're the first soul I've seen in days.",
+            "My cart went over a ridge. Wolves drove the mule mad—dragged it off the path and into the dark.",
+            "Everything I had was on that cart. My stock. My food. Everything.",
+            "I found a torn map near a dead oak, west of here. The cart's marked on it, but I couldn't reach it alone.",
+            "The woods... they don't want me here. I can feel it. Will you help?"
+          ],
+          "accept": [
+            "Thank you. Truly.",
+            "Find the oak. It's west—look for the bark scarred with old marks. The map was tangled in its roots.",
+            "Bring it back to me. I'll know the path from there. I think."
+          ],
+          "deny": [
+            "I... yes. I wouldn't ask, either. Not here. Not in this place.",
+            "I'll be on the road. If you change your mind.",
+            "...I'll be on the road."
+          ],
+          "inProgress": {
+            "stage_1": {
+              "line": "The oak is west of here. Don't stray from the main path—things move in the undergrowth.",
+              "reminder": "Look for the marked oak. The map is in its roots."
+            },
+            "stage_2": {
+              "line": "You found it? The path on the map—north. Through the thicket. Don't stop walking until you reach the cart.",
+              "reminder": "Follow the northern trail. The cart is in a rocky hollow."
+            }
+          },
+          "completed": [
+            "You're alive. I... I wasn't sure you'd come back.",
+            "The cart. You found it.",
+            "Here. Take this. It's all I can spare, but you've earned it.",
+            "You should leave these woods soon. They're getting worse. I've seen what happens to those who stay too long."
+          ]
+        }
+      },
+      "requirements": {
+        "level": 1,
+        "items": [],
+        "quests": []
+      },
+      "stages": [
+        {
+          "id": "stage_1",
+          "name": "Find the Marked Oak",
+          "description": "The merchant spoke of a dead oak to the west, scarred with old marks. The map lies somewhere in its roots.",
+          "objectives": [
+            {
+              "id": "find_oak",
+              "type": "explore",
+              "target": {
+                "region": "west_woods",
+                "bounds": { "x1": 0, "y1": 0, "x2": 150, "y2": 400 }
+              },
+              "text": "Enter the western woods",
+              "completed": [
+                "The oak is easy to find. It's the only dead thing standing.",
+                "Strange marks line the bark—not carved by any blade you know. The map fragment is caught in the roots, stiff with something dark."
+              ]
+            }
+          ],
+          "prose": {
+            "start": "West. The merchant pointed west, where the trees grow thick and the light doesn't reach. You walk until the road is gone behind you.",
+            "complete": "The map is torn, but legible. A path drawn in shaky hand, leading north into deeper dark. A circled boulder marks the cart's last known position."
+          }
+        },
+        {
+          "id": "stage_2",
+          "name": "Follow the Trail",
+          "description": "The map shows a path through the northern thicket. Follow it to the boulder where the cart fell.",
+          "objectives": [
+            {
+              "id": "follow_map",
+              "type": "explore",
+              "target": {
+                "region": "north_trail",
+                "bounds": { "x1": 150, "y1": 0, "x2": 600, "y2": 100 }
+              },
+              "text": "Follow the northern path",
+              "completed": [
+                "The trail narrows. Brambles snag your clothes. Something moves in the brush—just out of sight."
+              ]
+            },
+            {
+              "id": "find_cart",
+              "type": "interact",
+              "target": {
+                "cell": [520, 45]
+              },
+              "interactionId": "cart_discovery",
+              "text": "Investigate the boulder",
+              "completed": [
+                "The cart lies on its side behind the boulder. Wheels cracked. Canvas torn.",
+                "Most of the goods are gone—scattered or taken. A few glass vials remain, unbroken somehow. The mule's harness is shredded.",
+                "No sign of the mule."
+              ]
+            }
+          ],
+          "prose": {
+            "start": "The map leads you through narrow defiles where the trees press close. The path is barely a path at all. Just a suggestion, carved into the earth by something that passed through long ago.",
+            "complete": "The cart is a ruin. Whatever happened here, it wasn't just wolves."
+          }
+        },
+        {
+          "id": "stage_3",
+          "name": "Return to the Merchant",
+          "description": "The cart has been found. Return to the Traveling Merchant on the main road.",
+          "objectives": [
+            {
+              "id": "return_merchant",
+              "type": "explore",
+              "target": {
+                "region": "main_road",
+                "bounds": { "x1": 270, "y1": 180, "x2": 330, "y2": 220 }
+              },
+              "text": "Return to the merchant",
+              "completed": [
+                "The merchant is still there. He looks thinner than before."
+              ]
+            }
+          ],
+          "prose": {
+            "start": "You turn back toward the road, the map still in your hand. The woods feel different on the way out. Smaller. Closer.",
+            "complete": "The merchant stares at the map, then at you. He doesn't ask about the mule. He doesn't ask about the vials. He just nods, slowly, and presses the gold into your palm."
+          }
+        }
+      ],
+      "rewards": {
+        "xp": 150,
+        "gold": 75,
+        "items": []
+      }
+    }
+  }
+}
