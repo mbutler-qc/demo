@@ -1,0 +1,100 @@
+{
+  "reactions": [
+    {
+      "id": "steam", "name": "Steam", "tier": 1, "elements": ["fire", "ice"], "fx": "steam",
+      "effects": [{ "kind": "status", "status": "vulnerable", "value": 2, "to": "target" }],
+      "text": "Apply 2 Vulnerable.",
+      "grimoireHint": "Something about fire meeting ice..."
+    },
+    {
+      "id": "plasma", "name": "Plasma", "tier": 1, "elements": ["fire", "lightning"], "fx": "plasma",
+      "effects": [{ "kind": "damage", "value": 8, "targets": "all" }],
+      "text": "Deal 8 damage to ALL enemies.",
+      "grimoireHint": "Fire and storm, both loud."
+    },
+    {
+      "id": "shatter", "name": "Shatter", "tier": 1, "elements": ["ice", "void"], "fx": "shatter",
+      "effects": [{ "kind": "flag", "flag": "double_block" }],
+      "text": "Double the Block gained by your next card.",
+      "grimoireHint": "Cold, and the absence of warmth."
+    },
+    {
+      "id": "entropy", "name": "Entropy", "tier": 1, "elements": ["lightning", "void"], "fx": "entropy",
+      "effects": [{ "kind": "draw", "value": 2 }],
+      "text": "Draw 2 cards.",
+      "grimoireHint": "Two kinds of nothing-at-once."
+    },
+    {
+      "id": "ignite", "name": "Ignite", "tier": 2, "elements": ["fire", "fire"], "fx": "ignite",
+      "effects": [{ "kind": "flag", "flag": "fire_damage", "value": 3 }],
+      "text": "Your Fire cards deal +3 damage this turn.",
+      "grimoireHint": "Fire alone. Twice."
+    },
+    {
+      "id": "frostbite", "name": "Frostbite", "tier": 2, "elements": ["ice", "ice"], "fx": null,
+      "effects": [{ "kind": "status", "status": "weak", "value": 1, "to": "all_enemies" }],
+      "text": "Apply 1 Weak to ALL enemies.",
+      "grimoireHint": "Ice alone. Twice."
+    },
+    {
+      "id": "surge", "name": "Surge", "tier": 2, "elements": ["lightning", "lightning"], "fx": null,
+      "effects": [{ "kind": "energy", "value": 1 }],
+      "text": "Gain 1 Energy.",
+      "grimoireHint": "The storm repeats itself."
+    },
+    {
+      "id": "decay", "name": "Decay", "tier": 2, "elements": ["void", "void"], "fx": null,
+      "effects": [{ "kind": "damage", "value": 10, "pierce": true }],
+      "text": "Deal 10 damage to an enemy, ignoring Block.",
+      "grimoireHint": "The void, deepened."
+    },
+    {
+      "id": "corrode", "name": "Corrode", "tier": 2, "elements": ["acid", "fire"], "fx": null,
+      "effects": [{ "kind": "status", "status": "vulnerable", "value": 3, "to": "target" }],
+      "text": "Apply 3 Vulnerable.",
+      "grimoireHint": "Acid, then heat."
+    },
+    {
+      "id": "melt", "name": "Melt", "tier": 2, "elements": ["acid", "ice"], "fx": null,
+      "effects": [{ "kind": "damage", "value": 6, "targets": "all" }],
+      "text": "Deal 6 damage to ALL enemies.",
+      "grimoireHint": "Acid, then cold."
+    },
+    {
+      "id": "toxic", "name": "Toxic Cloud", "tier": 2, "elements": ["acid", "void"], "fx": null,
+      "effects": [{ "kind": "status", "status": "weak", "value": 2, "to": "target" }],
+      "text": "Apply 2 Weak.",
+      "grimoireHint": "Acid, then absence."
+    },
+    {
+      "id": "dissolve", "name": "Dissolve", "tier": 2, "elements": ["acid", "acid"], "fx": null,
+      "effects": [{ "kind": "damage", "value": 12 }],
+      "text": "Deal 12 damage to an enemy.",
+      "grimoireHint": "Acid alone. Twice."
+    },
+    {
+      "id": "gild", "name": "Gild", "tier": 3, "elements": ["gold", "fire"], "fx": null,
+      "effects": [{ "kind": "energy", "value": 2 }],
+      "text": "Gain 2 Energy.",
+      "grimoireHint": "Gold, and heat."
+    },
+    {
+      "id": "fortify", "name": "Fortify", "tier": 3, "elements": ["gold", "ice"], "fx": null,
+      "effects": [{ "kind": "flag", "flag": "double_block" }],
+      "text": "Double the Block gained by your next card.",
+      "grimoireHint": "Gold, and cold."
+    },
+    {
+      "id": "transmute", "name": "Transmute", "tier": 3, "elements": ["gold", "lightning"], "fx": null,
+      "effects": [{ "kind": "draw", "value": 3 }],
+      "text": "Draw 3 cards.",
+      "grimoireHint": "Gold, and spark."
+    },
+    {
+      "id": "filthy_rich", "name": "Filthy Rich", "tier": 3, "elements": ["gold", "gold"], "fx": null,
+      "effects": [{ "kind": "energy", "value": 3 }],
+      "text": "Gain 3 Energy.",
+      "grimoireHint": "Gold alone. Twice."
+    }
+  ]
+}

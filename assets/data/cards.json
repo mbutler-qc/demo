@@ -1,0 +1,299 @@
+[
+  {
+    "id": "strike", "name": "Strike", "cost": 1, "type": "attack", "element": "fire",
+    "rarity": "starter", "comboTag": "strike", "targets": "single",
+    "effects": [{ "kind": "damage", "value": 6 }],
+    "hint": "The first word every wizard learns."
+  },
+  {
+    "id": "defend", "name": "Defend", "cost": 1, "type": "skill", "element": "ice",
+    "rarity": "starter", "comboTag": "guard", "targets": "self",
+    "effects": [{ "kind": "block", "value": 5 }],
+    "hint": "Ice answers before fire asks."
+  },
+  {
+    "id": "bash", "name": "Bash", "cost": 2, "type": "attack", "element": "lightning",
+    "rarity": "starter", "comboTag": "strike", "targets": "single",
+    "effects": [{ "kind": "damage", "value": 10 }],
+    "hint": "Loud, bright, effective."
+  },
+
+  {
+    "id": "ember", "name": "Ember", "cost": 0, "type": "attack", "element": "fire",
+    "rarity": "common", "comboTag": "strike", "targets": "single",
+    "effects": [{ "kind": "damage", "value": 3 }],
+    "hint": "Costs nothing but your attention."
+  },
+  {
+    "id": "fire_bolt", "name": "Fire Bolt", "cost": 1, "type": "attack", "element": "fire",
+    "rarity": "common", "comboTag": "strike", "targets": "single",
+    "effects": [{ "kind": "damage", "value": 9 }, { "kind": "lose_hp", "value": 2 }],
+    "hint": "Fire always takes its tithe."
+  },
+  {
+    "id": "cinder_slash", "name": "Cinder Slash", "cost": 1, "type": "attack", "element": "fire",
+    "rarity": "uncommon", "comboTag": "strike", "targets": "single",
+    "effects": [{ "kind": "damage", "value": 4, "times": 2 }],
+    "hint": "Two quick cuts."
+  },
+  {
+    "id": "flame_wave", "name": "Flame Wave", "cost": 2, "type": "attack", "element": "fire",
+    "rarity": "uncommon", "comboTag": "strike", "targets": "all",
+    "effects": [{ "kind": "damage", "value": 5 }],
+    "hint": "It spreads."
+  },
+  {
+    "id": "inferno", "name": "Inferno", "cost": 3, "type": "attack", "element": "fire",
+    "rarity": "rare", "comboTag": "strike", "targets": "all",
+    "effects": [{ "kind": "damage", "value": 11 }, { "kind": "lose_hp", "value": 4 }],
+    "hint": "Everything burns. Including you."
+  },
+  {
+    "id": "blazing_heart", "name": "Blazing Heart", "cost": 2, "type": "power", "element": "fire",
+    "rarity": "rare", "comboTag": "flux", "targets": "self",
+    "effects": [{ "kind": "power", "power": "strength", "value": 2 }],
+    "hint": "Anger, made renewable."
+  },
+
+  {
+    "id": "frost_bolt", "name": "Frost Bolt", "cost": 1, "type": "attack", "element": "ice",
+    "rarity": "common", "comboTag": "strike", "targets": "single",
+    "effects": [{ "kind": "damage", "value": 5 }, { "kind": "status", "status": "vulnerable", "value": 1, "to": "target" }],
+    "hint": "Cold makes cracks. Cracks make openings."
+  },
+  {
+    "id": "ice_lance", "name": "Ice Lance", "cost": 1, "type": "attack", "element": "ice",
+    "rarity": "common", "comboTag": "strike", "targets": "single",
+    "effects": [{ "kind": "damage", "value": 7 }],
+    "hint": "Straight through."
+  },
+  {
+    "id": "frost_shield", "name": "Frost Shield", "cost": 1, "type": "skill", "element": "ice",
+    "rarity": "common", "comboTag": "guard", "targets": "self",
+    "effects": [{ "kind": "block", "value": 6 }],
+    "hint": "A wall you wear."
+  },
+  {
+    "id": "ice_wall", "name": "Ice Wall", "cost": 2, "type": "skill", "element": "ice",
+    "rarity": "uncommon", "comboTag": "guard", "targets": "self",
+    "effects": [{ "kind": "block", "value": 12 }],
+    "hint": "Frozen solid."
+  },
+  {
+    "id": "frozen_grip", "name": "Frozen Grip", "cost": 2, "type": "skill", "element": "ice",
+    "rarity": "uncommon", "comboTag": "flux", "targets": "single",
+    "effects": [
+      { "kind": "status", "status": "vulnerable", "value": 3, "to": "target" },
+      { "kind": "draw", "value": 1 }
+    ],
+    "hint": "Hold them still and think."
+  },
+  {
+    "id": "deep_freeze", "name": "Deep Freeze", "cost": 3, "type": "skill", "element": "ice",
+    "rarity": "rare", "comboTag": "guard", "targets": "self",
+    "effects": [{ "kind": "block", "value": 20 }],
+    "hint": "Stop moving. Stop everything."
+  },
+
+  {
+    "id": "spark", "name": "Spark", "cost": 1, "type": "attack", "element": "lightning",
+    "rarity": "common", "comboTag": "strike", "targets": "single",
+    "effects": [{ "kind": "damage", "value": 4 }],
+    "hint": "Small. Fast. Cheap."
+  },
+  {
+    "id": "chain_lightning", "name": "Chain Lightning", "cost": 1, "type": "attack", "element": "lightning",
+    "rarity": "common", "comboTag": "strike", "targets": "all",
+    "effects": [{ "kind": "damage", "value": 4 }],
+    "hint": "It does not stop at one."
+  },
+  {
+    "id": "lightning_strike", "name": "Lightning Strike", "cost": 2, "type": "attack", "element": "lightning",
+    "rarity": "uncommon", "comboTag": "strike", "targets": "single",
+    "effects": [{ "kind": "damage", "value": 12 }],
+    "hint": "You hear it after."
+  },
+  {
+    "id": "shockwave", "name": "Shockwave", "cost": 3, "type": "attack", "element": "lightning",
+    "rarity": "rare", "comboTag": "strike", "targets": "all",
+    "effects": [
+      { "kind": "damage", "value": 8 },
+      { "kind": "status", "status": "shock", "value": 1, "to": "all_enemies" }
+    ],
+    "hint": "Scrambles everything that thinks."
+  },
+  {
+    "id": "storm_charge", "name": "Storm Charge", "cost": 0, "type": "skill", "element": "lightning",
+    "rarity": "uncommon", "comboTag": "flux", "targets": "self",
+    "effects": [{ "kind": "energy", "value": 2 }],
+    "exhaust": true,
+    "hint": "Bottled, briefly."
+  },
+  {
+    "id": "thunder_guard", "name": "Thunder Guard", "cost": 2, "type": "power", "element": "lightning",
+    "rarity": "uncommon", "comboTag": "flux", "targets": "self",
+    "effects": [{ "kind": "power", "power": "block", "value": 3 }],
+    "hint": "The storm stands in front of you."
+  },
+
+  {
+    "id": "void_pulse", "name": "Void Pulse", "cost": 1, "type": "attack", "element": "void",
+    "rarity": "common", "comboTag": "strike", "targets": "single",
+    "effects": [{ "kind": "damage", "value": 5 }],
+    "hint": "A polite little nothing."
+  },
+  {
+    "id": "wither", "name": "Wither", "cost": 1, "type": "skill", "element": "void",
+    "rarity": "uncommon", "comboTag": "flux", "targets": "single",
+    "effects": [{ "kind": "status", "status": "poison", "value": 5, "to": "target" }],
+    "hint": "Patience, weaponised."
+  },
+  {
+    "id": "entropy_bolt", "name": "Entropy Bolt", "cost": 2, "type": "attack", "element": "void",
+    "rarity": "uncommon", "comboTag": "strike", "targets": "single",
+    "effects": [{ "kind": "damage", "value": 8, "pierce": true }],
+    "hint": "Armour is just an opinion."
+  },
+  {
+    "id": "void_blast", "name": "Void Blast", "cost": 2, "type": "attack", "element": "void",
+    "rarity": "uncommon", "comboTag": "strike", "targets": "single",
+    "effects": [{ "kind": "damage", "value": 14 }],
+    "hint": "Nothing, with intent."
+  },
+  {
+    "id": "void_shroud", "name": "Void Shroud", "cost": 2, "type": "skill", "element": "void",
+    "rarity": "uncommon", "comboTag": "guard", "targets": "self",
+    "effects": [{ "kind": "block", "value": 8 }, { "kind": "draw", "value": 1 }],
+    "hint": "Wrap yourself in absence."
+  },
+  {
+    "id": "soul_siphon", "name": "Soul Siphon", "cost": 2, "type": "attack", "element": "void",
+    "rarity": "rare", "comboTag": "strike", "targets": "single",
+    "effects": [{ "kind": "damage", "value": 7 }, { "kind": "heal", "value": 5 }],
+    "hint": "Take a little back."
+  },
+  {
+    "id": "dark_pact", "name": "Dark Pact", "cost": 3, "type": "power", "element": "void",
+    "rarity": "rare", "comboTag": "flux", "targets": "self",
+    "effects": [{ "kind": "power", "power": "energy", "value": 1 }],
+    "hint": "Signed in something darker than ink."
+  },
+
+  {
+    "id": "acid_splash", "name": "Acid Splash", "cost": 1, "type": "attack", "element": "acid",
+    "rarity": "common", "comboTag": "strike", "targets": "single",
+    "effects": [
+      { "kind": "damage", "value": 6 },
+      { "kind": "status", "status": "weak", "value": 1, "to": "target" }
+    ],
+    "hint": "Stings going in, stings coming out."
+  },
+  {
+    "id": "acid_shield", "name": "Acid Shield", "cost": 1, "type": "skill", "element": "acid",
+    "rarity": "common", "comboTag": "guard", "targets": "self",
+    "effects": [{ "kind": "block", "value": 5 }],
+    "hint": "Not a shield. A deterrent."
+  },
+  {
+    "id": "acid_blast", "name": "Acid Blast", "cost": 2, "type": "attack", "element": "acid",
+    "rarity": "uncommon", "comboTag": "strike", "targets": "all",
+    "effects": [{ "kind": "damage", "value": 10 }],
+    "hint": "Everything at once, dissolves."
+  },
+  {
+    "id": "bile_spray", "name": "Bile Spray", "cost": 2, "type": "attack", "element": "acid",
+    "rarity": "uncommon", "comboTag": "strike", "targets": "single",
+    "effects": [{ "kind": "damage", "value": 4, "times": 3 }],
+    "hint": "Three coats."
+  },
+  {
+    "id": "corrosive_fumes", "name": "Corrosive Fumes", "cost": 1, "type": "skill", "element": "acid",
+    "rarity": "uncommon", "comboTag": "flux", "targets": "all",
+    "effects": [{ "kind": "status", "status": "weak", "value": 2, "to": "all_enemies" }],
+    "hint": "They breathe it in whether they like it or not."
+  },
+  {
+    "id": "meltdown", "name": "Meltdown", "cost": 3, "type": "skill", "element": "acid",
+    "rarity": "rare", "comboTag": "flux", "targets": "all",
+    "effects": [{ "kind": "status", "status": "vulnerable", "value": 4, "to": "all_enemies" }],
+    "hint": "Strip them down to the bones."
+  },
+
+  {
+    "id": "gold_strike", "name": "Gold Strike", "cost": 1, "type": "attack", "element": "gold",
+    "rarity": "common", "comboTag": "strike", "targets": "single",
+    "effects": [{ "kind": "damage", "value": 6 }, { "kind": "energy", "value": 1 }],
+    "hint": "Get paid to hit things."
+  },
+  {
+    "id": "gold_rush", "name": "Gold Rush", "cost": 0, "type": "skill", "element": "gold",
+    "rarity": "uncommon", "comboTag": "flux", "targets": "self",
+    "effects": [{ "kind": "draw", "value": 2 }],
+    "exhaust": true,
+    "hint": "Everyone grabs."
+  },
+  {
+    "id": "gold_wall", "name": "Gold Wall", "cost": 2, "type": "skill", "element": "gold",
+    "rarity": "uncommon", "comboTag": "guard", "targets": "self",
+    "effects": [{ "kind": "block", "value": 10 }],
+    "hint": "Bribe the blow."
+  },
+  {
+    "id": "midas_touch", "name": "Midas Touch", "cost": 1, "type": "skill", "element": "gold",
+    "rarity": "uncommon", "comboTag": "flux", "targets": "self",
+    "effects": [{ "kind": "gold", "value": 25 }],
+    "exhaust": true,
+    "hint": "Turns effort into income."
+  },
+  {
+    "id": "royal_decree", "name": "Royal Decree", "cost": 3, "type": "skill", "element": "gold",
+    "rarity": "rare", "comboTag": "flux", "targets": "self",
+    "effects": [{ "kind": "energy", "value": 3 }, { "kind": "draw", "value": 2 }],
+    "exhaust": true,
+    "hint": "It is done because you said so."
+  },
+
+  {
+    "id": "arcane_shield", "name": "Arcane Shield", "cost": 1, "type": "skill", "element": "neutral",
+    "rarity": "common", "comboTag": "guard", "targets": "self",
+    "effects": [{ "kind": "block", "value": 4 }],
+    "hint": "Cheap and honest."
+  },
+  {
+    "id": "shield_up", "name": "Shield Up", "cost": 2, "type": "skill", "element": "neutral",
+    "rarity": "common", "comboTag": "guard", "targets": "self",
+    "effects": [{ "kind": "block", "value": 10 }],
+    "hint": "Both arms, all the way up."
+  },
+  {
+    "id": "wind_surge", "name": "Wind Surge", "cost": 1, "type": "skill", "element": "neutral",
+    "rarity": "common", "comboTag": "guard", "targets": "self",
+    "effects": [{ "kind": "block", "value": 3 }, { "kind": "draw", "value": 1 }],
+    "hint": "Defend and think."
+  },
+  {
+    "id": "quick_step", "name": "Quick Step", "cost": 0, "type": "skill", "element": "neutral",
+    "rarity": "common", "comboTag": "flux", "targets": "self",
+    "effects": [{ "kind": "draw", "value": 1 }, { "kind": "block", "value": 2 }],
+    "hint": "Half a dodge and a fresh idea."
+  },
+  {
+    "id": "mana_surge", "name": "Mana Surge", "cost": 0, "type": "skill", "element": "neutral",
+    "rarity": "uncommon", "comboTag": "flux", "targets": "self",
+    "effects": [{ "kind": "energy", "value": 2 }],
+    "exhaust": true,
+    "hint": "The well refills itself, once."
+  },
+  {
+    "id": "iron_will", "name": "Iron Will", "cost": 1, "type": "skill", "element": "neutral",
+    "rarity": "uncommon", "comboTag": "guard", "targets": "self",
+    "effects": [{ "kind": "block", "value": 7 }],
+    "hint": "Decide not to move."
+  },
+  {
+    "id": "second_wind", "name": "Second Wind", "cost": 1, "type": "skill", "element": "neutral",
+    "rarity": "uncommon", "comboTag": "flux", "targets": "self",
+    "effects": [{ "kind": "draw", "value": 2 }, { "kind": "lose_hp", "value": 3 }],
+    "hint": "Breathe. It costs a little."
+  }
+]

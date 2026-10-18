@@ -1,0 +1,185 @@
+[
+  {
+    "id": "mysterious_altar",
+    "title": "Mysterious Altar",
+    "body": "A slab of black stone sits in a clearing, worn smooth by hands that are no longer attached to anyone. Something in the grooves catches the light and does not let it go.",
+    "options": [
+      {
+        "label": "Offer your blood (-10 HP)",
+        "requires": { "hp": 11 },
+        "outcomes": [
+          { "weight": 55, "text": "The stone drinks and pays you in coin.", "effects": [{ "kind": "gold", "value": 95 }] },
+          { "weight": 45, "text": "Something old decides you are worth arming.", "effects": [{ "kind": "add_relic", "rarity": "common" }] }
+        ]
+      },
+      {
+        "label": "Offer 60 Gold",
+        "requires": { "gold": 60 },
+        "outcomes": [
+          { "text": "You feel a weight leave your deck.", "effects": [{ "kind": "gold", "value": -60 }, { "kind": "remove_card" }] }
+        ]
+      },
+      { "label": "Walk away", "outcomes": [{ "text": "Wise.", "effects": [] }] }
+    ]
+  },
+  {
+    "id": "wandering_merchant",
+    "title": "Wandering Merchant",
+    "body": "A hunched figure unrolls a mat of trinkets before you have finished deciding whether to be afraid. \"No refunds,\" they say, before you have asked anything at all.",
+    "options": [
+      {
+        "label": "Buy a relic (95 Gold)",
+        "requires": { "gold": 95 },
+        "outcomes": [{ "text": "You acquire something with history.", "effects": [{ "kind": "gold", "value": -95 }, { "kind": "add_relic", "rarity": "uncommon" }] }]
+      },
+      {
+        "label": "Buy a card (70 Gold)",
+        "requires": { "gold": 70 },
+        "outcomes": [{ "text": "Tucked in with the rest of your spells.", "effects": [{ "kind": "gold", "value": -70 }, { "kind": "add_card", "rarity": "uncommon" }] }]
+      },
+      {
+        "label": "Pay 40 Gold to sharpen a card",
+        "requires": { "gold": 40 },
+        "outcomes": [{ "text": "The merchant's whetstone is not for blades.", "effects": [{ "kind": "gold", "value": -40 }, { "kind": "upgrade_card" }] }]
+      },
+      { "label": "Decline", "outcomes": [{ "text": "They do not look up.", "effects": [] }] }
+    ]
+  },
+  {
+    "id": "ancient_fountain",
+    "title": "Ancient Fountain",
+    "body": "Water runs uphill here. It has done so for a very long time and seems entirely unbothered about it.",
+    "options": [
+      {
+        "label": "Drink deeply (heal 30%)",
+        "outcomes": [{ "text": "It tastes like cold metal and it helps enormously.", "effects": [{ "kind": "heal_pct", "value": 30 }] }]
+      },
+      {
+        "label": "Wash a card from your deck",
+        "outcomes": [{ "text": "The spell dissolves with the water.", "effects": [{ "kind": "remove_card" }] }]
+      },
+      { "label": "Leave it alone", "outcomes": [{ "text": "It keeps running uphill.", "effects": [] }] }
+    ]
+  },
+  {
+    "id": "cursed_idol",
+    "title": "Cursed Idol",
+    "body": "A small figure of fused metal sits on a pedestal, warm to the touch. Holding it feels like being owed something.",
+    "options": [
+      {
+        "label": "Pocket it (-8 Max HP)",
+        "outcomes": [{ "text": "It comes with you, and it takes its rent.", "effects": [{ "kind": "add_relic", "rarity": "rare" }, { "kind": "max_hp", "value": -8 }] }]
+      },
+      {
+        "label": "Smash it",
+        "outcomes": [{ "text": "It shatters into coins. Somehow.", "effects": [{ "kind": "gold", "value": 70 }] }]
+      },
+      { "label": "Leave it on the pedestal", "outcomes": [{ "text": "It is still warm behind you.", "effects": [] }] }
+    ]
+  },
+  {
+    "id": "training_ground",
+    "title": "Training Ground",
+    "body": "Old straw dummies stand in a ring, all of them thoroughly destroyed by someone who has long since left.",
+    "options": [
+      {
+        "label": "Perfect a technique",
+        "outcomes": [{ "text": "You understand one of your spells much better now.", "effects": [{ "kind": "upgrade_card" }] }]
+      },
+      {
+        "label": "Spar until it hurts (-8 HP)",
+        "outcomes": [{ "text": "Painful, but you picked something up.", "effects": [{ "kind": "lose_hp", "value": 8 }, { "kind": "add_card", "rarity": "common" }] }]
+      },
+      { "label": "Rest by the ring", "outcomes": [{ "text": "A short sit does you good.", "effects": [{ "kind": "heal", "value": 10 }] }] }
+    ]
+  },
+  {
+    "id": "elemental_rift",
+    "title": "Elemental Rift",
+    "body": "A tear in the air cycles through colours, pausing on each as though asking a question. It wants to give you something. It will also take something.",
+    "options": [
+      {
+        "label": "Reach into the fire (-4 HP)",
+        "outcomes": [{ "text": "Heat pours into your channels.", "effects": [{ "kind": "lose_hp", "value": 4 }, { "kind": "meter", "element": "fire", "value": 4 }] }]
+      },
+      {
+        "label": "Reach into the ice",
+        "outcomes": [{ "text": "Cold pours in, steadying you.", "effects": [{ "kind": "meter", "element": "ice", "value": 4 }, { "kind": "heal", "value": 6 }] }]
+      },
+      {
+        "label": "Reach into the lightning",
+        "outcomes": [{ "text": "It crackles and leaves something behind.", "effects": [{ "kind": "meter", "element": "lightning", "value": 4 }, { "kind": "gold", "value": 35 }] }]
+      },
+      {
+        "label": "Reach into the void",
+        "outcomes": [{ "text": "You pull back a hand you cannot feel.", "effects": [{ "kind": "meter", "element": "void", "value": 4 }, { "kind": "add_potion", "rarity": "uncommon" }] }]
+      },
+      { "label": "Step away from the rift", "outcomes": [{ "text": "It cycles on without you.", "effects": [] }] }
+    ]
+  },
+  {
+    "id": "lost_library",
+    "title": "Lost Library",
+    "body": "Shelves rise into darkness in every direction. Somewhere down there, a book is about to be exactly what you need.",
+    "options": [
+      {
+        "label": "Read the deep shelves (-8 HP)",
+        "outcomes": [{ "text": "The words fight back. You win anyway.", "effects": [{ "kind": "lose_hp", "value": 8 }, { "kind": "add_card", "rarity": "rare" }] }]
+      },
+      {
+        "label": "Take the loose pages",
+        "outcomes": [{ "text": "A scholar would weep. You are not a scholar.", "effects": [{ "kind": "gold", "value": 85 }] }]
+      },
+      { "label": "Leave the shelves alone", "outcomes": [{ "text": "Something turns a page behind you.", "effects": [] }] }
+    ]
+  },
+  {
+    "id": "shrine_of_chaos",
+    "title": "Shrine of Chaos",
+    "body": "The shrine has no fixed shape. Praying here is a coin flip with the coin still spinning.",
+    "options": [
+      {
+        "label": "Pray",
+        "outcomes": [
+          { "weight": 22, "text": "Wealth, inexplicably.", "effects": [{ "kind": "gold", "value": 160 }] },
+          { "weight": 26, "text": "Warmth floods back into you.", "effects": [{ "kind": "heal_pct", "value": 35 }] },
+          { "weight": 30, "text": "It answers with teeth.", "effects": [{ "kind": "lose_hp", "value": 15 }] },
+          { "weight": 22, "text": "It leaves a gift, out of curiosity.", "effects": [{ "kind": "add_relic", "rarity": "rare" }] }
+        ]
+      },
+      { "label": "Do not pray", "outcomes": [{ "text": "It watches you go, disappointed.", "effects": [] }] }
+    ]
+  },
+  {
+    "id": "abandoned_smithy",
+    "title": "Abandoned Smithy",
+    "body": "The forge is cold but the tools are laid out as though the smith is coming back any moment. They are not coming back.",
+    "options": [
+      {
+        "label": "Repair your gear",
+        "outcomes": [{ "text": "There is more of value here than scrap.", "effects": [{ "kind": "add_relic", "rarity": "common" }] }]
+      },
+      {
+        "label": "Strip it for parts",
+        "outcomes": [{ "text": "Everything sells eventually.", "effects": [{ "kind": "gold", "value": 60 }, { "kind": "add_potion", "rarity": "common" }] }]
+      },
+      { "label": "Leave the tools where they are", "outcomes": [{ "text": "Someone should keep the place tidy.", "effects": [{ "kind": "heal", "value": 8 }] }] }
+    ]
+  },
+  {
+    "id": "witchs_cauldron",
+    "title": "Witch's Cauldron",
+    "body": "Something is bubbling unattended. The bubbles are going in the wrong direction, which is either a very bad sign or a very good one.",
+    "options": [
+      {
+        "label": "Add a pinch of yourself (-6 HP)",
+        "outcomes": [{ "text": "It produces a bottle it was clearly saving for you.", "effects": [{ "kind": "lose_hp", "value": 6 }, { "kind": "add_potion", "rarity": "rare" }] }]
+      },
+      {
+        "label": "Stir in a spell",
+        "outcomes": [{ "text": "The spell dissolves. The pot cools over something shiny.", "effects": [{ "kind": "remove_card" }, { "kind": "gold", "value": 75 }] }]
+      },
+      { "label": "Leave the cauldron bubbling", "outcomes": [{ "text": "It continues regardless.", "effects": [] }] }
+    ]
+  }
+]

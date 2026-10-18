@@ -1,13 +1,39 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>three.js demos</title>
-    <script type="module" crossorigin src="./assets/index-IyKyZ0Tz.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-CFAlyLxg.css">
-  </head>
-  <body>
-    <div id="app"></div>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Phasercard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: #1a1a2e;
+            overflow: hidden;
+            touch-action: none;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas {
+            display: block;
+            touch-action: none;
+        }
+        @font-face {
+            font-family: 'Wizzta';
+            src: url('./assets/fonts/wizzta.regular.ttf') format('truetype');
+        }
+    </style>
+</head>
+<body>
+    <script type="module" src="./game.js"></script>
+</body>
 </html>

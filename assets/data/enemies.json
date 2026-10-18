@@ -1,0 +1,1051 @@
+[
+  {
+    "id": "slime",
+    "name": "Slime",
+    "tier": "common",
+    "act": 1,
+    "hp": [
+      26,
+      30
+    ],
+    "sprite": "slime",
+    "element": [
+      "ice"
+    ],
+    "meterGain": 1,
+    "gold": [
+      10,
+      15
+    ],
+    "moves": {
+      "attack": {
+        "kind": "attack",
+        "damage": [
+          5,
+          6
+        ],
+        "hits": 1,
+        "lane": "random"
+      },
+      "defend": {
+        "kind": "defend",
+        "block": 5
+      }
+    },
+    "pattern": [
+      "attack",
+      "attack",
+      "defend",
+      "attack"
+    ]
+  },
+  {
+    "id": "goblin",
+    "name": "Goblin",
+    "tier": "common",
+    "act": 1,
+    "hp": [
+      22,
+      26
+    ],
+    "sprite": "goblin",
+    "element": [
+      "fire"
+    ],
+    "meterGain": 1,
+    "gold": [
+      10,
+      15
+    ],
+    "animationFrames": [
+      "goblin_1",
+      "goblin_2",
+      "goblin_3",
+      "goblin_4",
+      "goblin_5"
+    ],
+    "moves": {
+      "attack": {
+        "kind": "attack",
+        "damage": [
+          4,
+          6
+        ],
+        "hits": 1,
+        "lane": "random"
+      },
+      "frenzy": {
+        "kind": "attack",
+        "damage": [
+          3,
+          4
+        ],
+        "hits": 2,
+        "lane": "min_block"
+      },
+      "buff": {
+        "kind": "buff",
+        "status": "strength",
+        "value": 2
+      }
+    },
+    "pattern": [
+      "attack",
+      "attack",
+      "buff",
+      "attack",
+      "frenzy"
+    ]
+  },
+  {
+    "id": "skeleton",
+    "name": "Skeleton",
+    "tier": "common",
+    "act": 1,
+    "hp": [
+      30,
+      34
+    ],
+    "sprite": "skeleton",
+    "element": [
+      "void"
+    ],
+    "meterGain": 1,
+    "gold": [
+      11,
+      16
+    ],
+    "moves": {
+      "attack": {
+        "kind": "attack",
+        "damage": [
+          6,
+          8
+        ],
+        "hits": 1,
+        "lane": "random"
+      },
+      "defend": {
+        "kind": "defend",
+        "block": 6
+      },
+      "debuff": {
+        "kind": "debuff",
+        "status": "weak",
+        "value": 1
+      }
+    },
+    "pattern": [
+      "attack",
+      "defend",
+      "attack",
+      "debuff",
+      "attack"
+    ]
+  },
+  {
+    "id": "storm_elemental",
+    "name": "Storm Elemental",
+    "tier": "common",
+    "act": 1,
+    "hp": [
+      24,
+      30
+    ],
+    "sprite": "storm_elemental",
+    "element": [
+      "lightning"
+    ],
+    "meterGain": 1,
+    "gold": [
+      10,
+      15
+    ],
+    "moves": {
+      "attack": {
+        "kind": "attack",
+        "damage": [
+          5,
+          7
+        ],
+        "hits": 1,
+        "lane": "random"
+      },
+      "defend": {
+        "kind": "defend",
+        "block": 5
+      },
+      "buff": {
+        "kind": "buff",
+        "status": "strength",
+        "value": 1
+      }
+    },
+    "pattern": [
+      "attack",
+      "attack",
+      "attack",
+      "defend",
+      "buff"
+    ]
+  },
+  {
+    "id": "toxic_ooze",
+    "name": "Toxic Ooze",
+    "tier": "common",
+    "act": 1,
+    "hp": [
+      28,
+      32
+    ],
+    "sprite": "toxic_ooze",
+    "element": [
+      "acid"
+    ],
+    "meterGain": 1,
+    "gold": [
+      10,
+      16
+    ],
+    "moves": {
+      "attack": {
+        "kind": "attack",
+        "damage": [
+          5,
+          7
+        ],
+        "hits": 1,
+        "lane": "random"
+      },
+      "debuff": {
+        "kind": "debuff",
+        "status": "poison",
+        "value": 3
+      },
+      "defend": {
+        "kind": "defend",
+        "block": 6
+      }
+    },
+    "pattern": [
+      "attack",
+      "debuff",
+      "attack",
+      "defend"
+    ]
+  },
+  {
+    "id": "gold_golem",
+    "name": "Gold Golem",
+    "tier": "common",
+    "act": 1,
+    "hp": [
+      32,
+      38
+    ],
+    "sprite": "gold_golem",
+    "element": [
+      "gold"
+    ],
+    "meterGain": 1,
+    "gold": [
+      18,
+      26
+    ],
+    "moves": {
+      "defend": {
+        "kind": "defend",
+        "block": 8
+      },
+      "attack": {
+        "kind": "attack",
+        "damage": [
+          6,
+          8
+        ],
+        "hits": 1,
+        "lane": "min_block"
+      },
+      "buff": {
+        "kind": "buff",
+        "status": "strength",
+        "value": 2
+      }
+    },
+    "pattern": [
+      "defend",
+      "attack",
+      "attack",
+      "buff",
+      "attack"
+    ]
+  },
+  {
+    "id": "acid_dragon",
+    "name": "Acid Dragon",
+    "tier": "elite",
+    "act": 1,
+    "hp": [
+      48,
+      54
+    ],
+    "sprite": "acid_dragon",
+    "element": [
+      "acid",
+      "fire"
+    ],
+    "meterGain": 2,
+    "gold": [
+      30,
+      40
+    ],
+    "moves": {
+      "attack": {
+        "kind": "attack",
+        "damage": [
+          8,
+          11
+        ],
+        "hits": 1,
+        "lane": "random"
+      },
+      "breath": {
+        "kind": "attack_debuff",
+        "damage": [
+          5,
+          6
+        ],
+        "hits": 2,
+        "lane": "min_block",
+        "status": "weak",
+        "value": 1
+      },
+      "debuff": {
+        "kind": "debuff",
+        "status": "weak",
+        "value": 2
+      }
+    },
+    "pattern": [
+      "attack",
+      "attack",
+      "breath",
+      "debuff",
+      "attack"
+    ]
+  },
+  {
+    "id": "frost_wraith",
+    "name": "Frost Wraith",
+    "tier": "elite",
+    "act": 1,
+    "hp": [
+      44,
+      50
+    ],
+    "sprite": "frost_wraith",
+    "element": [
+      "ice",
+      "lightning"
+    ],
+    "meterGain": 2,
+    "gold": [
+      30,
+      40
+    ],
+    "moves": {
+      "attack": {
+        "kind": "attack",
+        "damage": [
+          9,
+          12
+        ],
+        "hits": 1,
+        "lane": "random"
+      },
+      "defend": {
+        "kind": "defend",
+        "block": 10
+      },
+      "buff": {
+        "kind": "buff",
+        "status": "strength",
+        "value": 2
+      }
+    },
+    "pattern": [
+      "attack",
+      "defend",
+      "attack",
+      "buff",
+      "attack"
+    ]
+  },
+  {
+    "id": "ember_spirit",
+    "name": "Ember Spirit",
+    "tier": "elite",
+    "act": 1,
+    "hp": [
+      40,
+      46
+    ],
+    "sprite": "ember_spirit",
+    "element": [
+      "fire",
+      "gold"
+    ],
+    "meterGain": 2,
+    "gold": [
+      34,
+      44
+    ],
+    "moves": {
+      "attack": {
+        "kind": "attack",
+        "damage": [
+          7,
+          9
+        ],
+        "hits": 1,
+        "lane": "random"
+      },
+      "flurry": {
+        "kind": "attack",
+        "damage": [
+          4,
+          5
+        ],
+        "hits": 3,
+        "lane": "random"
+      },
+      "buff": {
+        "kind": "buff",
+        "status": "strength",
+        "value": 3
+      }
+    },
+    "pattern": [
+      "attack",
+      "buff",
+      "attack",
+      "flurry",
+      "attack"
+    ]
+  },
+  {
+    "id": "boss_dragon",
+    "name": "The Dragon",
+    "tier": "boss",
+    "act": 1,
+    "isBoss": true,
+    "hp": [
+      104,
+      104
+    ],
+    "sprite": "boss_dragon",
+    "element": [
+      "fire"
+    ],
+    "meterGain": 3,
+    "gold": [
+      75,
+      90
+    ],
+    "moves": {
+      "claw": {
+        "kind": "attack",
+        "damage": [
+          12,
+          14
+        ],
+        "hits": 1,
+        "lane": "min_block"
+      },
+      "flurry": {
+        "kind": "attack",
+        "damage": [
+          7,
+          8
+        ],
+        "hits": 2,
+        "lane": "min_block"
+      },
+      "roar": {
+        "kind": "buff",
+        "status": "strength",
+        "value": 3
+      },
+      "tail": {
+        "kind": "attack_debuff",
+        "damage": [
+          9,
+          11
+        ],
+        "hits": 1,
+        "lane": "random",
+        "status": "weak",
+        "value": 1
+      }
+    },
+    "pattern": [
+      "claw",
+      "flurry",
+      "roar",
+      "tail",
+      "claw",
+      "flurry",
+      "roar"
+    ]
+  },
+  {
+    "id": "void_wraith",
+    "name": "Void Wraith",
+    "tier": "common",
+    "act": 2,
+    "hp": [
+      36,
+      42
+    ],
+    "sprite": "void_wraith",
+    "element": [
+      "void",
+      "ice"
+    ],
+    "meterGain": 1,
+    "gold": [
+      16,
+      24
+    ],
+    "moves": {
+      "attack": {
+        "kind": "attack",
+        "damage": [
+          9,
+          12
+        ],
+        "hits": 1,
+        "lane": "random"
+      },
+      "drain": {
+        "kind": "attack_debuff",
+        "damage": [
+          6,
+          8
+        ],
+        "hits": 1,
+        "lane": "min_block",
+        "status": "weak",
+        "value": 1
+      },
+      "defend": {
+        "kind": "defend",
+        "block": 8
+      }
+    },
+    "pattern": [
+      "attack",
+      "drain",
+      "attack",
+      "defend",
+      "attack"
+    ]
+  },
+  {
+    "id": "lightning_serpent",
+    "name": "Lightning Serpent",
+    "tier": "common",
+    "act": 2,
+    "hp": [
+      34,
+      40
+    ],
+    "sprite": "lightning_serpent",
+    "element": [
+      "lightning",
+      "acid"
+    ],
+    "meterGain": 1,
+    "gold": [
+      16,
+      24
+    ],
+    "moves": {
+      "attack": {
+        "kind": "attack",
+        "damage": [
+          8,
+          10
+        ],
+        "hits": 1,
+        "lane": "random"
+      },
+      "double": {
+        "kind": "attack",
+        "damage": [
+          5,
+          6
+        ],
+        "hits": 2,
+        "lane": "min_block"
+      },
+      "buff": {
+        "kind": "buff",
+        "status": "strength",
+        "value": 2
+      }
+    },
+    "pattern": [
+      "attack",
+      "double",
+      "attack",
+      "buff",
+      "double"
+    ]
+  },
+  {
+    "id": "gold_dragon",
+    "name": "Gold Dragon",
+    "tier": "common",
+    "act": 2,
+    "hp": [
+      42,
+      48
+    ],
+    "sprite": "gold_dragon",
+    "element": [
+      "gold",
+      "void"
+    ],
+    "meterGain": 1,
+    "gold": [
+      30,
+      42
+    ],
+    "moves": {
+      "attack": {
+        "kind": "attack",
+        "damage": [
+          10,
+          13
+        ],
+        "hits": 1,
+        "lane": "min_block"
+      },
+      "defend": {
+        "kind": "defend",
+        "block": 12
+      },
+      "buff": {
+        "kind": "buff",
+        "status": "strength",
+        "value": 2
+      }
+    },
+    "pattern": [
+      "defend",
+      "attack",
+      "attack",
+      "buff",
+      "attack"
+    ]
+  },
+  {
+    "id": "acid_wyrm",
+    "name": "Acid Wyrm",
+    "tier": "common",
+    "act": 2,
+    "hp": [
+      40,
+      46
+    ],
+    "sprite": "acid_dragon",
+    "element": [
+      "acid"
+    ],
+    "meterGain": 1,
+    "gold": [
+      16,
+      24
+    ],
+    "moves": {
+      "attack": {
+        "kind": "attack",
+        "damage": [
+          9,
+          11
+        ],
+        "hits": 1,
+        "lane": "random"
+      },
+      "spit": {
+        "kind": "attack_debuff",
+        "damage": [
+          4,
+          5
+        ],
+        "hits": 2,
+        "lane": "random",
+        "status": "poison",
+        "value": 3
+      },
+      "debuff": {
+        "kind": "debuff",
+        "status": "poison",
+        "value": 4
+      }
+    },
+    "pattern": [
+      "attack",
+      "spit",
+      "attack",
+      "debuff"
+    ]
+  },
+  {
+    "id": "rime_wraith",
+    "name": "Rime Wraith",
+    "tier": "common",
+    "act": 2,
+    "hp": [
+      38,
+      44
+    ],
+    "sprite": "frost_wraith",
+    "element": [
+      "ice"
+    ],
+    "meterGain": 1,
+    "gold": [
+      16,
+      24
+    ],
+    "moves": {
+      "attack": {
+        "kind": "attack",
+        "damage": [
+          10,
+          12
+        ],
+        "hits": 1,
+        "lane": "random"
+      },
+      "defend": {
+        "kind": "defend",
+        "block": 12
+      },
+      "debuff": {
+        "kind": "debuff",
+        "status": "weak",
+        "value": 2
+      }
+    },
+    "pattern": [
+      "attack",
+      "defend",
+      "attack",
+      "debuff",
+      "attack"
+    ]
+  },
+  {
+    "id": "cinder_spirit",
+    "name": "Cinder Spirit",
+    "tier": "common",
+    "act": 2,
+    "hp": [
+      34,
+      40
+    ],
+    "sprite": "ember_spirit",
+    "element": [
+      "fire"
+    ],
+    "meterGain": 1,
+    "gold": [
+      16,
+      24
+    ],
+    "moves": {
+      "attack": {
+        "kind": "attack",
+        "damage": [
+          8,
+          10
+        ],
+        "hits": 1,
+        "lane": "random"
+      },
+      "flurry": {
+        "kind": "attack",
+        "damage": [
+          4,
+          5
+        ],
+        "hits": 3,
+        "lane": "random"
+      },
+      "buff": {
+        "kind": "buff",
+        "status": "strength",
+        "value": 3
+      }
+    },
+    "pattern": [
+      "attack",
+      "flurry",
+      "attack",
+      "buff"
+    ]
+  },
+  {
+    "id": "tempest_avatar",
+    "name": "Tempest Avatar",
+    "tier": "elite",
+    "act": 2,
+    "hp": [
+      64,
+      72
+    ],
+    "sprite": "storm_elemental",
+    "element": [
+      "lightning",
+      "ice"
+    ],
+    "meterGain": 2,
+    "gold": [
+      45,
+      60
+    ],
+    "moves": {
+      "attack": {
+        "kind": "attack",
+        "damage": [
+          12,
+          15
+        ],
+        "hits": 1,
+        "lane": "min_block"
+      },
+      "storm": {
+        "kind": "attack",
+        "damage": [
+          6,
+          7
+        ],
+        "hits": 3,
+        "lane": "random"
+      },
+      "buff": {
+        "kind": "buff",
+        "status": "strength",
+        "value": 2
+      },
+      "defend": {
+        "kind": "defend",
+        "block": 14
+      }
+    },
+    "pattern": [
+      "attack",
+      "storm",
+      "buff",
+      "attack",
+      "defend",
+      "storm"
+    ]
+  },
+  {
+    "id": "bone_lord",
+    "name": "Bone Lord",
+    "tier": "elite",
+    "act": 2,
+    "hp": [
+      60,
+      68
+    ],
+    "sprite": "skeleton",
+    "element": [
+      "void"
+    ],
+    "meterGain": 2,
+    "gold": [
+      45,
+      60
+    ],
+    "moves": {
+      "attack": {
+        "kind": "attack",
+        "damage": [
+          11,
+          14
+        ],
+        "hits": 1,
+        "lane": "random"
+      },
+      "curse": {
+        "kind": "debuff",
+        "status": "weak",
+        "value": 2
+      },
+      "defend": {
+        "kind": "defend",
+        "block": 14
+      },
+      "reap": {
+        "kind": "attack_debuff",
+        "damage": [
+          8,
+          10
+        ],
+        "hits": 1,
+        "lane": "min_block",
+        "status": "frail",
+        "value": 2
+      }
+    },
+    "pattern": [
+      "attack",
+      "defend",
+      "curse",
+      "reap",
+      "attack",
+      "reap"
+    ]
+  },
+  {
+    "id": "ooze_monarch",
+    "name": "Ooze Monarch",
+    "tier": "elite",
+    "act": 2,
+    "hp": [
+      68,
+      78
+    ],
+    "sprite": "toxic_ooze",
+    "element": [
+      "acid"
+    ],
+    "meterGain": 2,
+    "gold": [
+      45,
+      60
+    ],
+    "moves": {
+      "attack": {
+        "kind": "attack",
+        "damage": [
+          10,
+          12
+        ],
+        "hits": 1,
+        "lane": "random"
+      },
+      "spray": {
+        "kind": "attack_debuff",
+        "damage": [
+          5,
+          6
+        ],
+        "hits": 2,
+        "lane": "random",
+        "status": "poison",
+        "value": 4
+      },
+      "defend": {
+        "kind": "defend",
+        "block": 15
+      },
+      "debuff": {
+        "kind": "debuff",
+        "status": "poison",
+        "value": 5
+      }
+    },
+    "pattern": [
+      "attack",
+      "spray",
+      "defend",
+      "attack",
+      "debuff",
+      "spray"
+    ]
+  },
+  {
+    "id": "boss_chaos_elemental",
+    "name": "Chaos Elemental",
+    "tier": "boss",
+    "act": 2,
+    "isBoss": true,
+    "hp": [
+      140,
+      140
+    ],
+    "sprite": "boss_chaos_elemental",
+    "element": [
+      "fire",
+      "ice",
+      "lightning"
+    ],
+    "meterGain": 4,
+    "gold": [
+      110,
+      140
+    ],
+    "moves": {
+      "claw": {
+        "kind": "attack",
+        "damage": [
+          14,
+          17
+        ],
+        "hits": 1,
+        "lane": "min_block"
+      },
+      "maelstrom": {
+        "kind": "attack",
+        "damage": [
+          8,
+          9
+        ],
+        "hits": 3,
+        "lane": "random"
+      },
+      "unmake": {
+        "kind": "attack_debuff",
+        "damage": [
+          10,
+          12
+        ],
+        "hits": 1,
+        "lane": "min_block",
+        "status": "vulnerable",
+        "value": 2
+      },
+      "roar": {
+        "kind": "buff",
+        "status": "strength",
+        "value": 3
+      },
+      "siphon": {
+        "kind": "debuff",
+        "status": "frail",
+        "value": 2
+      },
+      "bulwark": {
+        "kind": "defend",
+        "block": 20
+      }
+    },
+    "pattern": [
+      "claw",
+      "maelstrom",
+      "roar",
+      "unmake",
+      "bulwark",
+      "claw",
+      "maelstrom",
+      "siphon"
+    ]
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "id": "ashen_charm", "name": "Ashen Charm", "rarity": "starter", "element": "fire",
+    "text": "At the start of each combat, gain 2 Fire charges.",
+    "hooks": { "combat_start": { "meter": { "fire": 2 } } }
+  },
+  {
+    "id": "iron_heart", "name": "Iron Heart", "rarity": "common", "element": "ice",
+    "text": "Whenever you gain Block, gain 1 more.",
+    "hooks": { "on_block_gain": { "flat": 1 } }
+  },
+  {
+    "id": "whetstone", "name": "Whetstone", "rarity": "common", "element": "neutral",
+    "text": "Attacks deal +1 damage.",
+    "hooks": { "on_damage_dealt": { "flat": 1 } }
+  },
+  {
+    "id": "lucky_coin", "name": "Lucky Coin", "rarity": "common", "element": "gold",
+    "text": "Battles award 25% more Gold.",
+    "hooks": { "gold_bonus_pct": 25 }
+  },
+  {
+    "id": "vinegar_flask", "name": "Vinegar Flask", "rarity": "common", "element": "acid",
+    "text": "At the start of each combat, apply 2 Vulnerable to a random enemy.",
+    "hooks": { "combat_start": { "enemy_status": { "status": "vulnerable", "value": 2 } } }
+  },
+  {
+    "id": "tempo_ring", "name": "Tempo Ring", "rarity": "uncommon", "element": "lightning",
+    "text": "At the start of each combat, gain 1 Energy.",
+    "hooks": { "combat_start": { "energy": 1 } }
+  },
+  {
+    "id": "blank_page", "name": "Blank Grimoire Page", "rarity": "uncommon", "element": "void",
+    "text": "At the start of each combat, draw 2 extra cards.",
+    "hooks": { "combat_start": { "draw": 2 } }
+  },
+  {
+    "id": "campfire_stone", "name": "Campfire Stone", "rarity": "uncommon", "element": "neutral",
+    "text": "Resting heals an extra 10% of your Max HP.",
+    "hooks": { "rest_heal_pct": 10 }
+  },
+  {
+    "id": "merchant_seal", "name": "Merchant's Seal", "rarity": "uncommon", "element": "gold",
+    "text": "Shop prices are 20% lower.",
+    "hooks": { "shop_discount_pct": 20 }
+  },
+  {
+    "id": "elemental_prism", "name": "Elemental Prism", "rarity": "rare", "element": "neutral",
+    "text": "Whenever you play a card, gain 1 charge of its element.",
+    "hooks": { "on_element_played": { "meter": 1 } }
+  },
+  {
+    "id": "force_of_nature", "name": "Force of Nature", "rarity": "rare", "element": "fire",
+    "text": "At the start of each turn, gain 1 Strength.",
+    "hooks": { "turn_start": { "status": { "strength": 1 } } }
+  },
+  {
+    "id": "void_marrow", "name": "Void Marrow", "rarity": "rare", "element": "void",
+    "text": "Whenever you kill an enemy, heal 4 HP.",
+    "hooks": { "on_kill": { "heal": 4 } }
+  },
+  {
+    "id": "crown_of_chaos", "name": "Crown of Chaos", "rarity": "boss", "element": "chaos",
+    "text": "Gain 1 Max Energy, but draw 1 fewer card at the start of each turn.",
+    "hooks": { "passive": { "max_energy": 1, "hand_delta": -1 } }
+  },
+  {
+    "id": "dragon_scale", "name": "Dragon Scale", "rarity": "boss", "element": "fire",
+    "text": "You take 2 less damage from enemy attacks.",
+    "hooks": { "on_damage_taken": { "flat_reduce": 2 } }
+  }
+]

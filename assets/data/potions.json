@@ -1,0 +1,38 @@
+[
+  {
+    "id": "healing_draught", "name": "Healing Draught", "rarity": "common", "element": "neutral",
+    "targets": "self", "effects": [{ "kind": "heal", "value": 20 }]
+  },
+  {
+    "id": "fire_flask", "name": "Fire Flask", "rarity": "common", "element": "fire",
+    "targets": "single", "effects": [{ "kind": "damage", "value": 12 }]
+  },
+  {
+    "id": "frost_tonic", "name": "Frost Tonic", "rarity": "common", "element": "ice",
+    "targets": "self", "effects": [{ "kind": "block", "value": 12 }]
+  },
+  {
+    "id": "acid_vial", "name": "Acid Vial", "rarity": "common", "element": "acid",
+    "targets": "all", "effects": [{ "kind": "status", "status": "weak", "value": 2, "to": "all_enemies" }]
+  },
+  {
+    "id": "gold_phial", "name": "Gilded Phial", "rarity": "common", "element": "gold",
+    "targets": "self", "effects": [{ "kind": "gold", "value": 90 }]
+  },
+  {
+    "id": "lightning_jar", "name": "Lightning Jar", "rarity": "uncommon", "element": "lightning",
+    "targets": "self", "effects": [{ "kind": "energy", "value": 2 }, { "kind": "draw", "value": 1 }]
+  },
+  {
+    "id": "void_essence", "name": "Void Essence", "rarity": "uncommon", "element": "void",
+    "targets": "single", "effects": [{ "kind": "status", "status": "poison", "value": 8, "to": "target" }]
+  },
+  {
+    "id": "panacea", "name": "Panacea", "rarity": "uncommon", "element": "neutral",
+    "targets": "self", "effects": [{ "kind": "cleanse" }]
+  },
+  {
+    "id": "bottled_storm", "name": "Bottled Storm", "rarity": "rare", "element": "lightning",
+    "targets": "all", "effects": [{ "kind": "damage", "value": 10 }]
+  }
+]

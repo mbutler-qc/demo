@@ -1,0 +1,46 @@
+[
+  {
+    "id": "ember",
+    "name": "Ember Pact",
+    "element": "fire",
+    "desc": "Aggressive and straightforward. Good for learning how reactions chain.",
+    "deck": [
+      "strike", "strike", "strike", "strike", "defend", "defend", "defend",
+      "bash", "fire_bolt", "ember"
+    ],
+    "unlock": null
+  },
+  {
+    "id": "frost",
+    "name": "Frost Ward",
+    "element": "ice",
+    "desc": "Tanky. Ice applies Vulnerable, so your hits land harder than they look.",
+    "deck": [
+      "strike", "strike", "strike", "defend", "defend", "defend", "defend",
+      "bash", "frost_bolt", "ice_lance"
+    ],
+    "unlock": null
+  },
+  {
+    "id": "flux",
+    "name": "Void Pact",
+    "element": "void",
+    "desc": "Tempo and attrition. Poison ignores Block, and Void charges make it cheap.",
+    "deck": [
+      "strike", "strike", "strike", "defend", "defend", "defend",
+      "void_pulse", "wither", "spark", "mana_surge"
+    ],
+    "unlock": { "discovered": 6 }
+  },
+  {
+    "id": "midas",
+    "name": "Midas Pact",
+    "element": "gold",
+    "desc": "Wealth as a weapon. Gold cards refund Energy and flood your hand.",
+    "deck": [
+      "strike", "strike", "strike", "defend", "defend", "defend",
+      "gold_strike", "gold_rush", "gold_wall", "bash"
+    ],
+    "unlock": { "discovered": 11 }
+  }
+]
